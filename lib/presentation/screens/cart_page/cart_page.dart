@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
+
 import 'package:shopora/models/product.dart';
 import 'package:shopora/models/shop.dart';
+
 import 'package:shopora/presentation/widgets/my_button.dart';
 import 'package:shopora/utils/static_string/static_string.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
-  void removeItemfromCart(BuildContext context, Product product) {
+  void removeItemfromCart(
+    BuildContext context,
+    Product product,
+    ShopController shoppingController,
+  ) {
     //=== a dialog box ask to user to confirm to remove from cart
     showDialog(
       context: context,
@@ -45,7 +51,7 @@ class CartPage extends StatelessWidget {
                 Navigator.pop(context);
 
                 //====== remove  cart=======
-                context.read<Shop>().removeFromCart(product);
+                shoppingController.removeFromCart(product);
               },
               child: Text("Remove"),
             ),
@@ -69,7 +75,8 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //=========== get access to the cart===========
-    final cart = context.watch<Shop>().cart;
+    final ShopController shopController = Get.find<ShopController>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -84,24 +91,30 @@ class CartPage extends StatelessWidget {
         children: [
           // ================= cart list =================
           Expanded(
-            child: cart.isEmpty
-                ? Center(child: const Text("You Cart is empty"))
-                : ListView.builder(
-                    itemCount: cart.length,
-                    itemBuilder: (context, index) {
-                      // ===== get indivisual item cart ==================
-                      final item = cart[index];
+            child: Obx(() {
+              return shopController.cart.isEmpty
+                  ? Center(child: const Text("You Cart is empty"))
+                  : ListView.builder(
+                      itemCount: shopController.cart.length,
+                      itemBuilder: (context, index) {
+                        // ===== get indivisual item cart ==================
+                        final item = shopController.cart[index];
 
-                      return ListTile(
-                        title: Text(item.name),
-                        subtitle: Text(item.price.toStringAsFixed(2)),
-                        trailing: IconButton(
-                          onPressed: () => removeItemfromCart(context, item),
-                          icon: Icon(Icons.delete),
-                        ),
-                      );
-                    },
-                  ),
+                        return ListTile(
+                          title: Text(item.name),
+                          subtitle: Text(item.price.toStringAsFixed(2)),
+                          trailing: IconButton(
+                            onPressed: () => removeItemfromCart(
+                              context,
+                              item,
+                              shopController,
+                            ),
+                            icon: Icon(Icons.delete),
+                          ),
+                        );
+                      },
+                    );
+            }),
           ),
 
           // ========pay button===========

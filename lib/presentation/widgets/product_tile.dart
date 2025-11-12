@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
 import 'package:shopora/models/product.dart';
 import 'package:shopora/models/shop.dart';
@@ -9,6 +9,7 @@ class ProductTile extends StatelessWidget {
   final Product product;
 
   void addtoCart(BuildContext context) {
+    final shopController = Get.find<ShopController>();
     // ====== a dialog box add to cart=========
     showDialog(
       context: context,
@@ -45,7 +46,7 @@ class ProductTile extends StatelessWidget {
                 Navigator.pop(context);
 
                 //====== add to cart=======
-                context.read<Shop>().addToCart(product);
+                shopController.addToCart(product);
               },
               child: Text("Add"),
             ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'package:shopora/core/routes/app_routes.dart';
 import 'package:shopora/presentation/widgets/my_button.dart';
 import 'package:shopora/utils/static_string/static_string.dart';
 
@@ -43,7 +46,7 @@ class IntroPage extends StatelessWidget {
             // ========== button ========
             MyButton(
               onTap: () {
-                Navigator.pushNamed(context, '/shop_page');
+                Get.toNamed(AppRoutes.shoppage);
               },
               child: Icon(Icons.arrow_forward, size: 25),
             ),

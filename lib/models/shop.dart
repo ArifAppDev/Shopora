@@ -1,10 +1,10 @@
-import 'package:flutter/widgets.dart';
+import 'package:get/state_manager.dart';
 import 'package:shopora/core/custom_assets/custom_images/custom_images.dart';
 import 'package:shopora/models/product.dart';
 
-class Shop extends ChangeNotifier {
+class ShopController extends GetxController {
   // product for sale
-  final List<Product> _shop = [
+  final shop = <Product>[
     /// product 1
     Product(
       name: "Nike Jordan 1 Mid",
@@ -73,25 +73,20 @@ class Shop extends ChangeNotifier {
           "This smart watch can check you heart beat reate how much you run everyday and other fitness tracks too.",
       imagepath: CustomImages.product8,
     ),
-  ];
+  ].obs;
   // user cart
-  final List<Product> _cart = [];
-
-  // get Product list
-  List<Product> get shop => _shop;
-
-  // get user cart
-  List<Product> get cart => _cart;
+  final cart = <Product>[].obs;
 
   //add item to cart
   void addToCart(Product item) {
-    _cart.add(item);
-    notifyListeners();
+    cart.add(item);
   }
 
   // removing item from cart
   void removeFromCart(Product item) {
-    _cart.remove(item);
-    notifyListeners();
+    cart.remove(item);
   }
+
+  // total price
+  double get totalPrice => cart.fold(0, (sum, item) => item.price);
 }

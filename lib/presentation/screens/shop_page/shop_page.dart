@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
+import 'package:shopora/core/routes/app_routes.dart';
 
 import 'package:shopora/models/shop.dart';
 
@@ -12,8 +13,8 @@ class ShopPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ======== access the product in shop===========
-    final products = context.watch<Shop>().shop;
+    // get access to the controller's and it's funcionality
+    final ShopController shopController = Get.find<ShopController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -27,7 +28,7 @@ class ShopPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 15),
             child: IconButton(
-              onPressed: () => Navigator.pushNamed(context, '/cartpage'),
+              onPressed: () => Get.toNamed(AppRoutes.cartpage),
               icon: Icon(Icons.shopping_cart_outlined),
             ),
           ),
@@ -55,11 +56,11 @@ class ShopPage extends StatelessWidget {
             height: 550,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: products.length,
+              itemCount: shopController.shop.length,
               padding: const EdgeInsets.all(25),
               itemBuilder: (context, index) {
                 // ========= get product from shop=========
-                final product = products[index];
+                final product = shopController.shop[index];
 
                 return ProductTile(product: product);
               },

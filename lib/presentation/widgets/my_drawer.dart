@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'package:shopora/core/routes/app_routes.dart';
 
 import 'package:shopora/presentation/widgets/my_list_tile.dart';
 
@@ -37,7 +40,17 @@ class MyDrawer extends StatelessWidget {
                 icon: Icons.shopping_cart,
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, '/cartpage');
+                  Get.toNamed(AppRoutes.cartpage);
+                },
+              ),
+
+              //=========setting===============
+              MyListTile(
+                text: "Settings",
+                icon: Icons.settings,
+                onTap: () {
+                  Navigator.pop(context);
+                  Get.toNamed(AppRoutes.settingsScreen);
                 },
               ),
             ],
@@ -49,11 +62,7 @@ class MyDrawer extends StatelessWidget {
             child: MyListTile(
               text: "Exit",
               icon: Icons.logout,
-              onTap: () => Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/intropage',
-                (route) => false,
-              ),
+              onTap: () => Get.toNamed(AppRoutes.intropage),
             ),
           ),
         ],
